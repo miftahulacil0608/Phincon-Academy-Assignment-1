@@ -5,8 +5,8 @@ import kotlin.system.exitProcess
 class PersonalFinance {
     var numberOfBalance = 3_000_000L
         private set
-    private var totalOfIncome = 3_500_00L
-    private var totalOfExpense = 500_00L
+    private var totalOfIncome = 3_500_000L
+    private var totalOfExpense = 500_000L
     private var listOfTransaction: MutableList<DataTransaction> = mutableListOf(
         DataTransaction(
             typeTransaction = "Pemasukan",
@@ -22,9 +22,7 @@ class PersonalFinance {
         )
     )
 
-    //belum ada exceptionnya
     fun addTransaction(typeOfTransaction: String) {
-        //tambahkan exception untuk inputan user
         var condition: Boolean
         do {
             println("====== Tambahkan $typeOfTransaction ======")
@@ -32,13 +30,14 @@ class PersonalFinance {
             val inputNominal = readlnOrNull()
             print("Keterangan: ")
             val inputDescription = readlnOrNull()
+
             // atau "[0-9]+" pattern regex untuk mengecek inputan awal-akhir berupa angka atau bukan jika menggunakan .matches
             val regexNumber = "^[0-9]+$".toRegex()
-            val validateInputNominal = inputNominal?.let {
-                regexNumber.matches(it)
-            } ?: false
+            val validateInputNominal = inputNominal?.let { regexNumber.matches(it) } ?: false
+
             // inputan dicek dulu 0 atau endak, jika iya kembalikan 0, jika tidak gunakan lengthnya dan lihat apakah >= dengan 5
             val validateDescription = (inputDescription?.length ?: 0) >= 5
+
             when {
                 !validateInputNominal -> {
                     println("Inputan nominal anda harus angka")

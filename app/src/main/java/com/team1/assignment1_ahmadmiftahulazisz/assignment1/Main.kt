@@ -7,7 +7,6 @@ fun main(){
     val personalFinance = PersonalFinance()
 
     do {
-        println(personalFinance.numberOfBalance)
         println("===Personal Finance Application===")
         println("""
             Pilih menu dibawah ini:
