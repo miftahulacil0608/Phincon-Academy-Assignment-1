@@ -1,10 +1,12 @@
 package com.team1.assignment1_ahmadmiftahulazisz.assignment1
 
+import com.team1.assignment1_ahmadmiftahulazisz.assignment1.Helper.dateConvertToString
+import com.team1.assignment1_ahmadmiftahulazisz.assignment1.Helper.regexFormat
+import java.time.LocalDate
 import kotlin.system.exitProcess
 
 class PersonalFinance {
-    var numberOfBalance = 3_000_000L
-        private set
+    private var numberOfBalance = 3_000_000L
     private var totalOfIncome = 3_500_000L
     private var totalOfExpense = 500_000L
     private var listOfTransaction: MutableList<DataTransaction> = mutableListOf(
@@ -32,8 +34,7 @@ class PersonalFinance {
             val inputDescription = readlnOrNull()
 
             // atau "[0-9]+" pattern regex untuk mengecek inputan awal-akhir berupa angka atau bukan jika menggunakan .matches
-            val regexNumber = "^[0-9]+$".toRegex()
-            val validateInputNominal = inputNominal?.let { regexNumber.matches(it) } ?: false
+            val validateInputNominal = inputNominal?.let { regexFormat.matches(it) } ?: false
 
             // inputan dicek dulu 0 atau endak, jika iya kembalikan 0, jika tidak gunakan lengthnya dan lihat apakah >= dengan 5
             val validateDescription = (inputDescription?.length ?: 0) >= 5
@@ -50,8 +51,9 @@ class PersonalFinance {
                 }
 
                 else -> {
+                    val convertNominalToLong = inputNominal?.toLong() ?: 0L
                     calculateMoney(
-                        numberOfMoney = inputNominal?.toLong() ?: 0,
+                        numberOfMoney = convertNominalToLong,
                         inputDescription = inputDescription,
                         typeOfTransaction = typeOfTransaction
                     )
@@ -74,7 +76,7 @@ class PersonalFinance {
                     typeTransaction = typeOfTransaction,
                     numberOfTransaction = numberOfMoney,
                     description = inputDescription,
-                    date = null
+                    date = LocalDate.now().dateConvertToString()
                 )
             )
             totalOfIncome += numberOfMoney //total pendapatan
@@ -86,7 +88,7 @@ class PersonalFinance {
                     typeOfTransaction,
                     numberOfTransaction = numberOfMoney,
                     description = inputDescription,
-                    date = null
+                    date = LocalDate.now().dateConvertToString()
                 )
             )
             totalOfExpense += numberOfMoney //total pengeluaran
@@ -113,9 +115,9 @@ class PersonalFinance {
         println("====== Keuangan Anda ======")
         println(
             """
-            Total Pemasukan = Rp. $totalOfIncome
-            Total Pengeluaran = Rp. $totalOfExpense
-            Jumlah saldo akhir = Rp. $numberOfBalance
+            Total Pemasukan     : Rp. $totalOfIncome
+            Total Pengeluaran   : Rp. $totalOfExpense
+            Jumlah saldo akhir  : Rp. $numberOfBalance
             
         """.trimIndent()
         )
